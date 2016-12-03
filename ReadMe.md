@@ -1,4 +1,7 @@
-#RSA
+#####@Author 云天河
+#####@Desciption RSA算法，js与php结合实践
+#####@Source 项目地址[RSA-js-php](https://github.com/HaleyLeoZhang/rsa-js-php)
+
 ##RSA简介
 RSA公钥加密算法是1977年由Ron Rivest、Adi Shamirh和LenAdleman在（美国麻省理工学院）开发的。RSA取名来自开发他们三者的名字。<br>
 RSA是目前最有影响力的公钥加密算法，它能够抵抗到目前为止已知的所有密码攻击，已被ISO推荐为公钥数据加密标准。<br>
@@ -21,7 +24,7 @@ RSA算法基于一个十分简单的数论事实：<font color='red'>将两个�
     
     A=B^e1 mod n；B=A^e2 mod n;
 
-更详细的讲解请到 [阮慧峰RSA详解](http://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html) 去看详情
+更详细的讲解请到 [阮一峰RSA详解](http://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html) 去看详情
 
 ##web中的应用
 
@@ -37,9 +40,9 @@ RSA算法基于一个十分简单的数论事实：<font color='red'>将两个�
 下载后，里面有有关使用说明
 使用后，生成器生成的文件如下
 
-> rsa_private_key.pem //私钥文件存这里的 <br>
-> rsa_public_key.pem  //公钥在这里<br>
-> rsa_private_key_pkcs8.pem //这个文件，php用不上的
+    rsa_private_key.pem //私钥文件存这里的 <br>
+    rsa_public_key.pem  //公钥在这里<br>
+    rsa_private_key_pkcs8.pem //这个文件，php用不上的
 
 写入私钥到php，公钥到js中<br>
 <font color='red'>私钥公钥，原来是几行就是几行，别自己去合成一行</font>
@@ -90,7 +93,7 @@ RSA算法基于一个十分简单的数论事实：<font color='red'>将两个�
     </script>
     
 ####PHP部分
-总所周知,php是用C语言写的,<br>
+众所周知,php是用C语言写的,<br>
 所以算法的实现，还是用php的c扩展实现比较合理，示例如下
 
     <?php
