@@ -1,14 +1,14 @@
-#####@Author 云天河
-#####@Desciption RSA算法，js与php结合实践
-#####@Source 项目地址[RSA-js-php](https://github.com/HaleyLeoZhang/rsa-js-php)
+#### @Author 云天河
+#### @Desciption RSA算法，js与php结合实践
+#### @Source 项目地址[RSA-js-php](https://github.com/HaleyLeoZhang/rsa-js-php)
 
-##RSA简介
+## RSA简介
 RSA公钥加密算法是1977年由Ron Rivest、Adi Shamirh和LenAdleman在（美国麻省理工学院）开发的。RSA取名来自开发他们三者的名字。<br>
 RSA是目前最有影响力的公钥加密算法，它能够抵抗到目前为止已知的所有密码攻击，已被ISO推荐为公钥数据加密标准。<br>
 目前该加密方式广泛用于网上银行、数字签名等场合。<br>
 RSA算法基于一个十分简单的数论事实：<font color='red'>将两个大素数相乘十分容易，但那时想要对其乘积进行因式分解却极其困难，因此可以将乘积公开作为加密密钥。</font>
 
-##算法核心
+## 算法核心
 
     RSA的算法涉及三个参数，n、e1、e2。
     
@@ -26,7 +26,7 @@ RSA算法基于一个十分简单的数论事实：<font color='red'>将两个�
 
 更详细的讲解请到 [阮一峰RSA详解](http://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html) 去看详情
 
-##web中的应用
+## web中的应用
 
 >分为两块
 >>前端公钥加密<br>
@@ -34,7 +34,7 @@ RSA算法基于一个十分简单的数论事实：<font color='red'>将两个�
 
 云天河作为一个phper，本次主要讲解js+php实现此次的加密解密。
 
-####获取公钥与私钥
+#### 获取公钥与私钥
 [支付宝公钥私钥生成器](https://os.alipayobjects.com/download/secret_key_tools_RSA_win.zip?spm=a219a.7629140.0.0.qFVp7d&file=secret_key_tools_RSA_win.zip)
 <br>
 下载后，里面有有关使用说明
@@ -58,7 +58,7 @@ RSA算法基于一个十分简单的数论事实：<font color='red'>将两个�
 
     var public_key='-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6KzAVhTxDl/6EUTtCbtRFOPKA4/WOD9WOSP+vxIa7+wjHnNXtWWf2JuzlTapHrx++J8K9zn75tGibXHsZb/DHvp4Pl50Ln2w1VhYuwg2MAUuf/Q2c8dIhM8srRmPGqEn621GTK0cNGweyLR1y88epLSt6MnbQAY89vGVd/LR5TwIDAQAB-----END PUBLIC KEY-----';
 
-####JS部分引入rsa.js类库，用法如下
+#### JS部分引入rsa.js类库，用法如下
 
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
     <script src="./rsa.js"></script>
@@ -92,7 +92,7 @@ RSA算法基于一个十分简单的数论事实：<font color='red'>将两个�
          });
     </script>
     
-####PHP部分
+#### PHP部分
 众所周知,php是用C语言写的,<br>
 所以算法的实现，还是用php的c扩展实现比较合理，示例如下
 
