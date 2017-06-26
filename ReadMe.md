@@ -1,6 +1,6 @@
-#### @Author 云天河
-#### @Desciption RSA算法，js与php结合实践
-#### @Source 项目地址[RSA-js-php](https://github.com/HaleyLeoZhang/rsa-js-php)
+##### @Author 云天河
+##### @Desciption RSA算法，js与php结合实践
+##### @Source 项目地址[RSA-js-php](https://github.com/HaleyLeoZhang/rsa-js-php)
 
 ## RSA简介
 RSA公钥加密算法是1977年由Ron Rivest、Adi Shamirh和LenAdleman在（美国麻省理工学院）开发的。RSA取名来自开发他们三者的名字。<br>
@@ -44,46 +44,25 @@ RSA算法基于一个十分简单的数论事实：<font color='red'>将两个�
     rsa_public_key.pem  //公钥在这里<br>
     rsa_private_key_pkcs8.pem //这个文件，php用不上的
 
-写入私钥到php，公钥到js中<br>
-<font color='red'>私钥公钥，原来是几行就是几行，别自己去合成一行</font>
-如，原本的公钥：
+运行 
 
-    -----BEGIN PUBLIC KEY-----
-    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6KzAVhTxDl/6EUTtCbtRFOPKA
-    4/WOD9WOSP+vxIa7+wjHnNXtWWf2JuzlTapHrx++J8K9zn75tGibXHsZb/DHvp4P
-    l50Ln2w1VhYuwg2MAUuf/Q2c8dIhM8srRmPGqEn621GTK0cNGweyLR1y88epLSt6
-    MnbQAY89vGVd/LR5TwIDAQAB
-    -----END PUBLIC KEY-----
-错误的引入方法：
+    bulid_js.php
 
-    var public_key='-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6KzAVhTxDl/6EUTtCbtRFOPKA4/WOD9WOSP+vxIa7+wjHnNXtWWf2JuzlTapHrx++J8K9zn75tGibXHsZb/DHvp4Pl50Ln2w1VhYuwg2MAUuf/Q2c8dIhM8srRmPGqEn621GTK0cNGweyLR1y88epLSt6MnbQAY89vGVd/LR5TwIDAQAB-----END PUBLIC KEY-----';
+生成
 
-#### JS部分引入rsa.js类库，用法如下
+    hlz_rsa.js 
+
+#### JS部分引入hlz_rsa.js类库，用法如下
 
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-    <script src="./rsa.js"></script>
+    <script src="./hlz_rsa.js"></script>
     <script>
-        var public_key,encrypt,After_enode;
-        post_data='云天河';//post的某条数据
-        public_key='-----BEGIN PUBLIC KEY-----'
-        +'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6KzAVhTxDl/6EUTtCbtRFOPKA'
-        +'4/WOD9WOSP+vxIa7+wjHnNXtWWf2JuzlTapHrx++J8K9zn75tGibXHsZb/DHvp4P'
-        +'l50Ln2w1VhYuwg2MAUuf/Q2c8dIhM8srRmPGqEn621GTK0cNGweyLR1y88epLSt6'
-        +'MnbQAY89vGVd/LR5TwIDAQAB-----END PUBLIC KEY-----';
-        encrypt = new JSEncrypt();
-        encrypt.setPublicKey( public_key );//传入公钥
-        After_enode = encrypt.encrypt( post_data );//传入准备post的数据
-        // js解密方法，大致如下，此次不作更多说明
-        /**
-        var decrypt = new JSEncrypt();
-        decrypt.setPrivateKey('这里填写私钥');
-        var uncrypted = decrypt.decrypt(After_enode);
-        */
-         document.write("加密前的数据:<input type='text' value=" + post_data+'><br><br>');
-         document.write('加密后的数据:<textarea rows="4" cols="50">' + After_enode + "</textarea><br><br>");
+        var after_enode;
+            ,post_data='云天河';// 待加密的数据
+        after_enode = rsa_encode( post_data ); // 经RSA加密后的数据
          $.ajax({
             url:'./rsa.php',
-            data:{"name":After_enode},
+            data:{"name":after_enode},
             dataType:'html',
             type:'post',
             success:function(html){
@@ -93,36 +72,27 @@ RSA算法基于一个十分简单的数论事实：<font color='red'>将两个�
     </script>
     
 #### PHP部分
-众所周知,php是用C语言写的,<br>
+
+众所周知,php是用C语言写的
+
 所以算法的实现，还是用php的c扩展实现比较合理，示例如下
+
+##### rsa.php
 
     <?php
     /**
     * RSA私钥解密，需在php.ini开启php_openssl.dll扩展
-    * @param after_encode_data 前端传来，经 RSA 加密后的数据
+    * @param String : after_encode_data 前端传来，经 RSA 加密后的数据
     * @return 返回解密后的数据
     */
-    function RSA_Decode($after_encode_data){
-        $private_key='-----BEGIN RSA PRIVATE KEY-----
-    MIICXQIBAAKBgQC6KzAVhTxDl/6EUTtCbtRFOPKA4/WOD9WOSP+vxIa7+wjHnNXt
-    WWf2JuzlTapHrx++J8K9zn75tGibXHsZb/DHvp4Pl50Ln2w1VhYuwg2MAUuf/Q2c
-    8dIhM8srRmPGqEn621GTK0cNGweyLR1y88epLSt6MnbQAY89vGVd/LR5TwIDAQAB
-    AoGAWD1WKi0flk45pc+2zdMoK7NFRhBGeFJK/4jcIBx/XCQtUielQj2pSAPFLx5z
-    wkxgOEoyRLLWflajalgYRMNJFSSZA9tCPmIID32OYmVm+ChCt5sTxvrugzDvA8zV
-    z/p97Kbz1/8BezTa4fWOfvrmPH0JrOkVcTJYpu5WlDVcf9ECQQDnVVlKccb/a8us
-    71FIVCZo6gBnwBf9sVeEj2WVIQdrzIYVQfVMguTiDSL0GT6FonL84XTNM8kJOYpw
-    G9mq9GCXAkEAzgT9Tm3aRMAG+33pCjED05za1OwwXf3xSeFNH4p9PMEsga/cew8R
-    pZcfC+qLj/t/yiDhf5TpHytJzQ20g9oMCQJAMYNAAEIH8KVWy6XRROTV78Cd45bm
-    y6LIc5PpjxipqPX2gNhEM2MUsBlVsN8yVZHmgJ+Uy1LZJYNOUR504TU68wJBAIUx
-    UJreBpkgFOOO+ZTvL2wmIow5zuNVhCOhl3zmyiT3NtD5Y2/jxCLsWtQXZPdHP8zs
-    CR20pirSj7oUPDpqRBECQQCANhG5Oo8eP0CU0Ruik7GmA6RuLbryEtCc3urf1VEp
-    /ebhi8ynGyC8FNxwUe+kqYwJHNvkU8WqkxhSoPsU4+WO
-    -----END RSA PRIVATE KEY-----';
-        //这里是个范例，但是平时都是采用直接读取私钥文件的方式
-        //$private_key = file_get_contents('./rsa_private_key.pem');
-        openssl_private_decrypt(base64_decode($after_encode_data),$decode_result,$private_key); 
+    function rsa_decode($after_encode_data){
+        // 读取私钥文件
+        $private_key = file_get_contents('./rsa_private_key.pem');
+        openssl_private_decrypt(
+            base64_decode($after_encode_data),
+            $decode_result,
+            $private_key
+        ); 
         return $decode_result;
-
     }
-    
-    var_dump(  RSA_Decode($_POST['name'])  ); 
+    echo rsa_decode($_POST['name']); // 输出解密结果，应为 "云天河"
