@@ -1,8 +1,10 @@
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
     <script src="./hlz_rsa.js"></script>
     <script>
-        var public_key,encrypt,After_enode;
-        post_data='云天河';//post的某条数据
+        var public_key,
+            encrypt,
+            After_enode,
+            post_data='云天河';//post的某条数据
         encrypt = new JSEncrypt();
         After_enode = rsa_encode( post_data );//传入准备post的数据
          document.write("加密前的数据:<input type='text' value=" + post_data+'><br><br>');
